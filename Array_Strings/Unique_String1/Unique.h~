@@ -1,8 +1,0 @@
-#ifndef UNIQUE_H
-#define UNIQUE_H
-#include <iostream>
-#include <string>
-
-bool uniqueString(string input);
-
-#endif
