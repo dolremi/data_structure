@@ -10,10 +10,8 @@ LinkedList::LinkedList(){
 
 LinkedList::LinkedList(int input, int val){
   size = input;
-  
   head = new ListNode(val);
   ListNode *insertOne = head;  
-  
 
   for(int i = 0; i < input - 1; i++){
     ListNode *newNode = new ListNode(val);
@@ -23,11 +21,9 @@ LinkedList::LinkedList(int input, int val){
 }
 
 LinkedList::LinkedList(LinkedList &rhs){
-  
   size = rhs.size;
-  
   head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head;
+  ListNode *appendOne = rhs.head->Next;
   ListNode *insertOne = head;
 
   while(appendOne){
@@ -39,31 +35,21 @@ LinkedList::LinkedList(LinkedList &rhs){
 }
 
 LinkedList::~LinkedList(){
-  
   while(head){
-    
     ListNode *temp = head;
-    
     head = head-> Next;
-    
     delete temp;
   }
   size = 0;
 }
 
 bool LinkedList::insert(int pos, int val){
-  
-  ListNode * insertOne = head;
-  if(pos > size)
-    return false;
-
   for(int i = 0; i < pos; i++){
     insertOne = insertOne -> Next;
   }
 
   ListNode *newNode = new ListNode(val);
   newNode -> Next = insertOne -> Next;
-  
   insertOne ->Next = newNode;
   size = size + 1;
   return true;
@@ -92,11 +78,9 @@ bool LinkedList::deleteNode(int input){
 
   if(head->val == input){
     ListNode *temp = head;
-
     head = NULL;
     delete temp;
     size = 0;
-  
     return true;
   }
   
@@ -117,9 +101,7 @@ bool LinkedList::deleteNode(int input){
 }
 
 void LinkedList::display(){
-  
   ListNode *p1 = head;
-  
   while(p1){
     cout << p1->val << " -> ";
     p1 = p1 -> Next;
@@ -132,22 +114,21 @@ ListNode* LinkedList::middle(){
   for(int i = 0; i < (size-1)/2; i++){
     p1 = p1->Next;
   }
-
   return p1;
 }
     
-// Move the values of nodes one node forward
+// Since we are not given the access to the previous node to the middle element, we can't delete the node directly
+// However we can copy the value of the next node to the current one, then delete the next node 
+// Note this method cannot delete the last node of the linked list
 void LinkedList::removeMiddle(ListNode *mid){
-
   ListNode *p1 = mid->Next;
-  while(p1->Next){
-    mid -> val=  p1->val;
-    mid = mid->Next;
-    p1 = p1->Next;
+  if(mid -> Next && mid){
+    ListNode *temp = mid->Next;
+    mid->val = mid->Next->val;
+    mid->Next = mid->Next->Next;
+    delete temp;
+    --size;
+  }else{
+    cout << "It cannot delete it" << endl;
   }
-
-  mid -> val = p1->val;
-  mid -> Next = NULL;
-  delete p1;
-  --size;
 }  
