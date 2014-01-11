@@ -11,10 +11,8 @@ LinkedList::LinkedList(){
 
 LinkedList::LinkedList(int input, int val){
   size = input;
-  
   head = new ListNode(val);
   ListNode *insertOne = head;  
-  
 
   for(int i = 0; i < input - 1; i++){
     ListNode *newNode = new ListNode(val);
@@ -24,11 +22,9 @@ LinkedList::LinkedList(int input, int val){
 }
 
 LinkedList::LinkedList(LinkedList &rhs){
-  
   size = rhs.size;
-  
   head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head;
+  ListNode *appendOne = rhs.head->Next;
   ListNode *insertOne = head;
 
   while(appendOne){
@@ -42,11 +38,8 @@ LinkedList::LinkedList(LinkedList &rhs){
 LinkedList::~LinkedList(){
   
   while(head){
-    
     ListNode *temp = head;
-    
     head = head-> Next;
-    
     delete temp;
   }
   size = 0;
@@ -93,17 +86,15 @@ bool LinkedList::deleteNode(int input){
 
   if(head->val == input){
     ListNode *temp = head;
-
     head = NULL;
     delete temp;
     size = 0;
-  
     return true;
   }
   
   ListNode *p1 = head;
 
-  // always start from the node before the deleted on
+  // always start from the node before the deleted one
   while(p1->Next != NULL){
     if(p1->Next->val == input){
       ListNode *temp = p1->Next;
@@ -126,11 +117,11 @@ void LinkedList::display(){
     cout << p1 -> val << " -> ";
     p1 = p1 -> Next;
   }
-  cout << " NULL";
+  cout << " NULL" << endl;
 }
   
-// Remove duplicated item with hash table to remove 
-// a node always start from the previous node     
+// Remove duplicated item with hash table to remove the duplicated node
+// The main algorithm is as following: simply iterate through the whole linked list, push each element into the hash table, if a duplicated one is found, remove it. The running time of the algorithm is O(n).
 void LinkedList::removedDuplicated1(){
   map<int, int> mymap;
   ListNode *p1 = head;
@@ -139,11 +130,12 @@ void LinkedList::removedDuplicated1(){
   }else{
     while(p1->Next){
       int temp = p1->Next->val;
+      
+      // In STL map, the find() method will return map::end() if no element is found
       if(mymap.find(temp) == mymap.end()){
 	mymap[temp] = 1;
       }
       else{
-
 	// remove the duplicated one
 	ListNode *temp = p1->Next;
 	p1->Next= p1-> Next -> Next;
@@ -156,23 +148,25 @@ void LinkedList::removedDuplicated1(){
 }
 
 // Use a "runner" pointer to record the node before the removed one
+// The space is O(1), but the running time is O(n^2)
 void LinkedList::removedDuplicated2(){
   ListNode *p1 = head;
   if(p1 == NULL){
     cout << "There is nothing in the linked list" << endl;
   }else{
     while(p1){
-      ListNode *p2 = p1 -> Next;
-      ListNode *p3 = p1;
-      while(p2){
-	if(p2->val == p1 -> val){
-	  ListNode *moved = p2;
-	  p3 ->Next = p2-> Next;
+     
+      // Only two pointers are needed for 'runner' technique
+      ListNode *runner = p1;
+      while(runner->Next){
+	if(runner->Next->val == p1 -> val){
+	  ListNode *moved = runner->Next;
+	  runner ->Next = runner-> Next->Next;
 	  delete moved;
 	  --size;
 	}
-	p3 = p3->Next;
-	p2 = p2->Next;
+
+	runner = runner->Next;
       }
       p1 = p1 -> Next;
     }

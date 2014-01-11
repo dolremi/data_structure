@@ -11,7 +11,6 @@ LinkedList::LinkedList(){
 
 // This constructor of the linked list will create a linked list of value "val" and size of "input"
 LinkedList::LinkedList(int input, int val){
-  
   size = input;
   head = new ListNode(val);
   ListNode *insertOne = head;  
@@ -25,7 +24,6 @@ LinkedList::LinkedList(int input, int val){
 
 // Copy constructer note that it didn't check self copy! And assume the original linked list is empty
 LinkedList::LinkedList(LinkedList &rhs){
-  
   size = rhs.size;
   head = new ListNode(rhs.head->val);
   ListNode *appendOne = rhs.head -> Next;
@@ -42,11 +40,8 @@ LinkedList::LinkedList(LinkedList &rhs){
 LinkedList::~LinkedList(){
   
   while(head){
-    
     ListNode *temp = head;
-    
     head = head-> Next;
-    
     delete temp;
   }
   size = 0;

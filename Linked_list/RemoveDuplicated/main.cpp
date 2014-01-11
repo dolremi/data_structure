@@ -2,15 +2,12 @@
 #include "LinkedList.h"
 
 
-/* remove the duplicates from an unsorted linked list 
-   There are two versions for this implements
-   1 with hash table to check duplications
-   2 without hash table to go through whole list
-
-   The first implementation is time efficient O(n) 
-   The second one is O(n^2) running time but space
-   efficient. 
-*/
+// Remove the duplicates from an unsorted linked list 
+// There are two versions for this implements of algorithms
+//    1 with hash table to check duplications
+//    2 without hash table to go through whole list 
+// The first implementation is time efficient O(n) 
+// The second one is O(n^2) running time but space efficient O(1)
 
 using namespace std;
 
@@ -39,7 +36,6 @@ int main(int argc, char * argv[]){
   
   if(choose == 1){
     test.removedDuplicated1();
-    
     test.display();
   }else{
     test.removedDuplicated2();

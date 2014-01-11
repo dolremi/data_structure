@@ -3,12 +3,10 @@
 
 #include <iostream>
 
-/* Remove the duplicated item using two different methods */
-
+// Remove the duplicated item using two different methods 
 using namespace std;
 
-// structure for one node of the singly linked list
-
+// C Structure for one node of the singly linked list
 struct ListNode{
   int val;
   struct ListNode *Next;
@@ -26,11 +24,9 @@ class LinkedList{
   LinkedList(int size, int val);
   LinkedList();
   LinkedList(LinkedList &rhs);
-
   ~LinkedList();
 
   bool insert(int pos, int val);
-
   void append(int val);
   bool deleteNode(int val);
   void display();
