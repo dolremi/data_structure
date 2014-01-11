@@ -3,6 +3,11 @@
 
 using namespace std;
 
+// The problem is find the kth to last element of a singly linked list
+// There are three versions of solutions to this problem:
+//    1. If the linked list size is known, jsut iterate though the list to find the (size-k)th element in the list
+//    2. A recursive version to find the kth of the last element
+//    3. A iterative version utilized the "runne" technqiue
 int main(int argc, char *argv[]){
   LinkedList myList;
   int val,size, k, select;
@@ -26,14 +31,18 @@ int main(int argc, char *argv[]){
 
   if(select == 1){
     ListNode *chosen = myList.kthlastIter(k);
-    cout << "Now the value of node is " << chosen->val << endl;
+    if(chosen)
+      cout << "Now the value of node is " << chosen->val << endl;
+    else
+      cout << "k is out of the range" << endl;
   }else{
-    int m = 1;
+    int m = 0;
     ListNode *chosen = myList.kthlastRecur(myList.currentHead(),m, k);     
-    cout << "Now the value of node is " << chosen->val << endl;
-
+    if(chosen)
+      cout << "Now the value of node is " << chosen->val << endl;
+    else
+      cout << "k is out of the range" << endl;
   }
-
   return 0;
 }
   

@@ -11,10 +11,8 @@ LinkedList::LinkedList(){
 
 LinkedList::LinkedList(int input, int val){
   size = input;
-  
   head = new ListNode(val);
   ListNode *insertOne = head;  
-  
 
   for(int i = 0; i < input - 1; i++){
     ListNode *newNode = new ListNode(val);
@@ -24,11 +22,9 @@ LinkedList::LinkedList(int input, int val){
 }
 
 LinkedList::LinkedList(LinkedList &rhs){
-  
   size = rhs.size;
-  
   head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head;
+  ListNode *appendOne = rhs.head->Next;
   ListNode *insertOne = head;
 
   while(appendOne){
@@ -40,31 +36,24 @@ LinkedList::LinkedList(LinkedList &rhs){
 }
 
 LinkedList::~LinkedList(){
-  
   while(head){
-    
     ListNode *temp = head;
-    
     head = head-> Next;
-    
     delete temp;
   }
   size = 0;
 }
 
 bool LinkedList::insert(int pos, int val){
-  
   ListNode * insertOne = head;
   if(pos > size)
     return false;
-
   for(int i = 0; i < pos; i++){
     insertOne = insertOne -> Next;
   }
 
   ListNode *newNode = new ListNode(val);
   newNode -> Next = insertOne -> Next;
-  
   insertOne ->Next = newNode;
   size = size + 1;
   return true;
@@ -93,16 +82,13 @@ bool LinkedList::deleteNode(int input){
 
   if(head->val == input){
     ListNode *temp = head;
-
     head = NULL;
     delete temp;
     size = 0;
-  
     return true;
   }
   
   ListNode *p1 = head;
-
   while(p1->Next != NULL){
     if(p1->Next->val == input){
       ListNode *temp = p1->Next;
@@ -113,7 +99,6 @@ bool LinkedList::deleteNode(int input){
     }
     p1 = p1->Next;
   }
-  
   return false;
 }
 
@@ -125,75 +110,26 @@ void LinkedList::display(){
     cout << p1 -> val << " -> ";
     p1 = p1 -> Next;
   }
-  cout << " NULL";
-}
-  
-// Remove duplicated item with hash table    
-void LinkedList::removedDuplicated1(){
-  map<int, int> mymap;
-  ListNode *p1 = head;
-  if(p1 == NULL){
-    cout << "There is no linked list here! " << endl;
-  }else{
-    while(p1->Next){
-      int temp = p1->Next->val;
-      if(mymap.find(temp) == mymap.end()){
-	mymap[temp] = 1;
-      }
-      else{
-
-	// remove the duplicated one
-	ListNode *temp = p1->Next;
-	p1->Next= p1-> Next -> Next;
-	delete temp;
-	--size;
-      }
-      p1 = p1->Next;
-    }
-  }
+  cout << " NULL" << endl;
 }
 
-void LinkedList::removedDuplicated2(){
-  ListNode *p1 = head;
-  if(p1 == NULL){
-    cout << "There is nothing in the linked list" << endl;
-  }else{
-    while(p1){
-      ListNode *p2 = p1 -> Next;
-      ListNode *p3 = p1;
-      while(p2){
-	if(p2->val == p1 -> val){
-	  ListNode *moved = p2;
-	  p3 ->Next = p2-> Next;
-	  delete moved;
-	  --size;
-	}
-	p3 = p3->Next;
-	p2 = p2->Next;
-      }
-      p1 = p1 -> Next;
-    }
-  }
-}
-
-//Iteration version use "runnner" technique
+// Iteration version use the "runnner" technique with  O(n) of running time and O(1) of space 
 ListNode * LinkedList::kthlastIter(int k){
   ListNode *p1 = head;
-  ListNode *p2 = p1;
-
-  if( k >= size)
-    return 0;
-    
-  //p2 is k nodes ahead of p1
-  for(int i = 0; i < k; i++){
+  ListNode *p2 = head;
+     
+  //Fast runner p2 is k nodes ahead of p1
+  for(int i = 0; i < k-1; i++){
+    if(p2 == 0) return NULL; // Error check for k is out of the range    
     p2 = p2->Next;
   }
-  
+  if(p2 == 0) return NULL;  // Error checking if p2 is NULL
+
+  // When the fast runner reached the end, the slow runner reached the kth to the last element
   while(p2->Next){
     p2 = p2->Next;
     p1 = p1->Next;
   }
-
   return p1;
 }
 
@@ -205,17 +141,20 @@ int LinkedList::currentSize(){
   return size;
 }
 
-// a recursive version of kth to last
-
+// A recursive version of kth to last, k is a reference to the value which will
+// record the position relative the the last element, nth to last : k = n, this number
+// will change across the function calls, the space is O(n) 
 ListNode * LinkedList::kthlastRecur(ListNode *input, int &k, int m){
-  if(input-> Next == NULL)
+ 
+  // Base case or head is NULL
+  if(input == NULL)
     return NULL;
 
   ListNode *result = kthlastRecur(input->Next, k, m);
   k = k + 1;
   
-  if(k == m)
+  if(k == m){
     return input;
-  else 
+  }
     return result;
 }
