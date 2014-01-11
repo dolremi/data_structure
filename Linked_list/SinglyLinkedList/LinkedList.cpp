@@ -3,17 +3,18 @@
 
 using namespace std;
 
+// The constructor for empty linked list
 LinkedList::LinkedList(){
   size = 0;
   head = NULL;
 }
 
+// This constructor of the linked list will create a linked list of value "val" and size of "input"
 LinkedList::LinkedList(int input, int val){
-  size = input;
   
+  size = input;
   head = new ListNode(val);
   ListNode *insertOne = head;  
-  
 
   for(int i = 0; i < input - 1; i++){
     ListNode *newNode = new ListNode(val);
@@ -22,12 +23,12 @@ LinkedList::LinkedList(int input, int val){
   }
 }
 
+// Copy constructer note that it didn't check self copy! And assume the original linked list is empty
 LinkedList::LinkedList(LinkedList &rhs){
   
   size = rhs.size;
-  
   head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head;
+  ListNode *appendOne = rhs.head -> Next;
   ListNode *insertOne = head;
 
   while(appendOne){
@@ -62,8 +63,9 @@ bool LinkedList::insert(int pos, int val){
   }
 
   ListNode *newNode = new ListNode(val);
+
+  // find the node next to the inserted position
   newNode -> Next = insertOne -> Next;
-  
   insertOne ->Next = newNode;
   size = size + 1;
   return true;
@@ -75,7 +77,8 @@ void LinkedList::append(int val){
   }
   else{
     ListNode *lastNode = head;
-    
+
+    // stop at the last node in the list    
     while(lastNode->Next)
       lastNode = lastNode->Next;
 
@@ -90,18 +93,18 @@ bool LinkedList::deleteNode(int input){
   if(head == NULL)
     return false;
 
+  // check if the head node needs to be deleted
   if(head->val == input){
     ListNode *temp = head;
-
     head = NULL;
     delete temp;
     size = 0;
-  
     return true;
   }
   
   ListNode *p1 = head;
 
+  // For the deletion, always check with the node before the to-be-deleted node
   while(p1->Next != NULL){
     if(p1->Next->val == input){
       ListNode *temp = p1->Next;
