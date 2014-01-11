@@ -125,7 +125,7 @@ void LinkedList::display(){
     p1 = p1->Next;
   }
 
-    cout << "0" << endl;
+  cout << "NULL" << endl;
 }
 
 ListNode * LinkedList::curHead(){
@@ -135,36 +135,64 @@ ListNode * LinkedList::curHead(){
 int LinkedList::currSize(){
   return size;
 }
-
+// There are several ways to check the palindrome 
+//   1. Reverse the linked list and compare the first half
+//   2. Use a stack to push the first half of the linked list, then compare them with the second half
+//   3. Recursive approach
 
 // Iterative version to determine if it is palindrome
-// use runner technique with two pointers
-// use stack to push half of the linked list 
-// compare them with the second half 
+// use runner technique with two pointers fast/slow runner, slow runner run each node at one time, the fast runner runs two nodes at one time
+// Be cautioun for the loop terminatino condition 
 bool LinkedList::isPalin(){
   ListNode *slow = head;
   ListNode *fast = head;
-
+  int iter = 1;
   stack <int> mystack;
-  mystack.push(head->val);
-
+ 
+  // The condition to terminate the loop is to check if fast-> Next and fast is empty
   while(fast != 0 && fast -> Next != 0){
-    slow = slow -> Next;
     mystack.push(slow -> val);
-    fast = fast -> Next -> Next;
-  }
-
-  while( slow != 0){
     slow = slow -> Next;
+    fast = fast -> Next -> Next;   
+  }   
+
+  // Has odd number of elements, so skip the middle element
+  if(fast){
+    slow = slow -> Next;
+  }
+ 
+  // Always check if the pointer is NULL before accessing the value of it
+  while(slow != 0 ){
     if(mystack.top() != slow -> val)
       return false;
 
+    slow = slow -> Next;
     mystack.pop();
   }
-
-  if(mystack.empty())
-    return true;
-
-  return false;
-
+ 
+  return true;
 }
+
+// Each call compares its head to the 'next' ListNode, then go to next node of 'next' ListNode up the stack
+bool LinkedList::isPalinR(ListNode *head, int length, ListNode **next){
+
+  // Base case when it reaches to the middle element
+  if(head == NULL || length == 0){
+    return true;
+  }else if (length == 1){
+    *next = (*next)->Next;
+    return true;
+  }
+
+  // Return the compare result from the next ListNode
+  // For each call the next node needs to update to next one
+  *next = (*next) -> Next;
+  bool res = isPalinR(head->Next, length -2, next);
+  
+  if(res){
+    res = head->val == (*next)->val;
+    *next = (*next)->Next;
+  }
+  return res;
+}
+

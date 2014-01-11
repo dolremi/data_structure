@@ -34,7 +34,8 @@ class LinkedList{
   int currSize();
   bool deleteNode(int val);
   void display();
-  bool isPalin();  
+  bool isPalin();
+  bool isPalinR(ListNode *head, int length, ListNode **next);  
 };
 
 #endif

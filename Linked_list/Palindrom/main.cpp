@@ -23,7 +23,8 @@ int main(int argc, char * argv[]){
 
     cout << "Check if it is a palindrom... " << endl;
 
-    if(myList.isPalin()){
+    ListNode *head1 = myList.curHead();
+    if(myList.isPalinR(head1,myList.currSize(),&head1)){
       cout << "Yes! It is" << endl;
     }else{
       cout << "Sorry! It is not" << endl;
