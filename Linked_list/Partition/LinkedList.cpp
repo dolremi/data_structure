@@ -10,10 +10,8 @@ LinkedList::LinkedList(){
 
 LinkedList::LinkedList(int input, int val){
   size = input;
-  
   head = new ListNode(val);
   ListNode *insertOne = head;  
-  
 
   for(int i = 0; i < input - 1; i++){
     ListNode *newNode = new ListNode(val);
@@ -23,11 +21,9 @@ LinkedList::LinkedList(int input, int val){
 }
 
 LinkedList::LinkedList(LinkedList &rhs){
-  
   size = rhs.size;
-  
   head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head;
+  ListNode *appendOne = rhs.head->Next;
   ListNode *insertOne = head;
 
   while(appendOne){
@@ -40,12 +36,9 @@ LinkedList::LinkedList(LinkedList &rhs){
 
 LinkedList::~LinkedList(){
   
-  while(head){
-    
+  while(head){    
     ListNode *temp = head;
-    
     head = head-> Next;
-    
     delete temp;
   }
   size = 0;
@@ -63,7 +56,6 @@ bool LinkedList::insert(int pos, int val){
 
   ListNode *newNode = new ListNode(val);
   newNode -> Next = insertOne -> Next;
-  
   insertOne ->Next = newNode;
   size = size + 1;
   return true;
@@ -75,10 +67,8 @@ void LinkedList::append(int val){
   }
   else{
     ListNode *lastNode = head;
-    
     while(lastNode->Next)
       lastNode = lastNode->Next;
-
     ListNode *temp = new ListNode(val);
     lastNode->Next = temp;
   }
@@ -92,11 +82,9 @@ bool LinkedList::deleteNode(int input){
 
   if(head->val == input){
     ListNode *temp = head;
-
     head = NULL;
     delete temp;
     size = 0;
-  
     return true;
   }
   
@@ -124,8 +112,7 @@ void LinkedList::display(){
     cout << p1->val << " -> ";
     p1 = p1->Next;
   }
-
-    cout << "NULL" << endl;
+  cout << "NULL" << endl;
 }
 
 ListNode * LinkedList::curHead(){
@@ -136,23 +123,22 @@ int LinkedList::currSize(){
   return size;
 }
   
-/* Partition the linked list with the value of inputValue
-   It will use "Runner" technique, one pointer point to the current position 
-   of the node less than inputValue, the other point to the current position of the node
-   greater or equal to inputValue. The process is finished when the second pointer reach 
-   to the end of the list
-*/
+//   Partition the linked list with the value of inputValue
+//   It will use "Runner" technique, one pointer point to the current position 
+//   of the node less than inputValue, the other point to the current position of the node greater or equal to inputValue. The process is finished when the second pointer reach to the end of the list
+//   This method is better than the solution of Book, since it is in-place swap
 
 void LinkedList::partition(int inputValue){
   if(head){
   ListNode *p1 = head;
-  
-  while(p1 -> val < inputValue && p1){
+
+  // Test the current node value put the smaller values in front
+  while(p1 && p1->val < inputValue ){
     p1 = p1->Next;
   }
-
+  
+  // Start from the firt node which is larger than the inputValue, swap the values of two nodes of which one is larger than inputValue put ahead of the smaller one
   ListNode *p2 = p1;
-
   while(p2){
     if(p2->val < inputValue && p1 != p2){
       int temp = p2-> val;
@@ -162,7 +148,6 @@ void LinkedList::partition(int inputValue){
     }
     p2 = p2 -> Next;
   }
- 
   }else{
     cout << "There is nothing in the list" << endl;
   }
