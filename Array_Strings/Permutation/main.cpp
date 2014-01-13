@@ -5,20 +5,20 @@
 
 using namespace std;
 
-/* To check if one string is a permutation of another one
-   Several questions can be asked: Is it an ASCII string?
-   Does the whitespace matter? ... etc.
-   In general there are two ways to do the problem:
+// To check if one string is a permutation of another one
+//   Several questions can be asked: Is it an ASCII string?
+//   Does the whitespace matter? ... etc.
+//   In general there are two ways to do the problem:
    
-   1. Sort all the characters then compare if they are the same, in C++, opearator== can be used to compare if two strings are equal
+//   1. Sort all the characters then compare if they are the same, in C++, opearator== can be used to compare if two strings are equal
 
-      Running time is O(nlgn)
+//      Running time is O(nlgn)
 
-   2. Use hash table (map in C++) to check if they have the same table. 
+//   2. Use hash table (map in C++) to check if they have the same table. 
    
-      Running time is O(n) for each character in String the look up time is O(1) in average
+//      Running time is O(n) for each character in String the look up time is O(1) in average
 
-*/
+
 
 bool isPermSorted(string A, string B){
   
@@ -27,11 +27,8 @@ bool isPermSorted(string A, string B){
     return false;
 
   sort(A.begin(), A.end());
-  
   sort(B.begin(), B.end());
-  
   return A == B;
-
 }
 
 bool isPermHash(string A, string B){
@@ -43,7 +40,6 @@ bool isPermHash(string A, string B){
   
   for(int i = 0; i < A.length(); i++){
     if(mymap.find(A[i]) == mymap.end()){
-      
       // Not found a character
       mymap[A[i]] = 1;
     }
@@ -58,11 +54,8 @@ bool isPermHash(string A, string B){
     }
    
     // If there are a few characters left, then they are not permutations
-    if(mymap[B[i]])
-      mymap[B[i]]--;
-    else
+    if(--mymap[B[i]] < 0)
       return false;
-    
   }
   
   for(auto it = mymap.begin(); it!= mymap.end(); it++){
