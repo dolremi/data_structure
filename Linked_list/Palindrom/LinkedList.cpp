@@ -10,10 +10,8 @@ LinkedList::LinkedList(){
 
 LinkedList::LinkedList(int input, int val){
   size = input;
-  
   head = new ListNode(val);
   ListNode *insertOne = head;  
-  
 
   for(int i = 0; i < input - 1; i++){
     ListNode *newNode = new ListNode(val);
@@ -23,11 +21,9 @@ LinkedList::LinkedList(int input, int val){
 }
 
 LinkedList::LinkedList(LinkedList &rhs){
-  
   size = rhs.size;
-  
   head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head;
+  ListNode *appendOne = rhs.head->Next;
   ListNode *insertOne = head;
 
   while(appendOne){
@@ -39,31 +35,23 @@ LinkedList::LinkedList(LinkedList &rhs){
 }
 
 LinkedList::~LinkedList(){
-  
   while(head){
-    
     ListNode *temp = head;
-    
     head = head-> Next;
-    
     delete temp;
   }
   size = 0;
 }
 
 bool LinkedList::insert(int pos, int val){
-  
   ListNode * insertOne = head;
   if(pos > size)
     return false;
-
   for(int i = 0; i < pos; i++){
     insertOne = insertOne -> Next;
   }
-
   ListNode *newNode = new ListNode(val);
   newNode -> Next = insertOne -> Next;
-  
   insertOne ->Next = newNode;
   size = size + 1;
   return true;
@@ -75,10 +63,8 @@ void LinkedList::append(int val){
   }
   else{
     ListNode *lastNode = head;
-    
     while(lastNode->Next)
       lastNode = lastNode->Next;
-
     ListNode *temp = new ListNode(val);
     lastNode->Next = temp;
   }
@@ -86,22 +72,16 @@ void LinkedList::append(int val){
 }
 
 bool LinkedList::deleteNode(int input){
-  
   if(head == 0)
     return false;
-
   if(head->val == input){
     ListNode *temp = head;
-
     head = 0;
     delete temp;
     size = 0;
-  
     return true;
   }
-  
   ListNode *p1 = head;
-
   while(p1->Next != 0){
     if(p1->Next->val == input){
       ListNode *temp = p1->Next;
@@ -112,19 +92,16 @@ bool LinkedList::deleteNode(int input){
     }
     p1 = p1->Next;
   }
-  
   return false;
 }
 
 void LinkedList::display(){
-  
   cout << "Now the list is as following" << endl;
   ListNode *p1 = head;
   while(p1){ 
     cout << p1->val << " -> ";
     p1 = p1->Next;
   }
-
   cout << "NULL" << endl;
 }
 
@@ -165,17 +142,14 @@ bool LinkedList::isPalin(){
   while(slow != 0 ){
     if(mystack.top() != slow -> val)
       return false;
-
     slow = slow -> Next;
     mystack.pop();
   }
- 
   return true;
 }
 
 // Each call compares its head to the 'next' ListNode, then go to next node of 'next' ListNode up the stack
 bool LinkedList::isPalinR(ListNode *head, int length, ListNode **next){
-
   // Base case when it reaches to the middle element
   if(head == NULL || length == 0){
     return true;
@@ -184,7 +158,7 @@ bool LinkedList::isPalinR(ListNode *head, int length, ListNode **next){
     return true;
   }
 
-  // Return the compare result from the next ListNode
+  // Return the compared result from the next ListNode
   // For each call the next node needs to update to next one
   *next = (*next) -> Next;
   bool res = isPalinR(head->Next, length -2, next);

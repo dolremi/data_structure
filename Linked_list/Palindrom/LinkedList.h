@@ -3,12 +3,9 @@
 
 #include <iostream>
 
-/* General class for linked list data structure */
-
 using namespace std;
 
 // structure for one node of the singly linked list
-
 struct ListNode{
   int val;
   struct ListNode *Next;
@@ -17,7 +14,6 @@ struct ListNode{
  
 
 class LinkedList{
-
   ListNode *head;
   int size;
  public:
@@ -28,12 +24,13 @@ class LinkedList{
   LinkedList();
   ~LinkedList();
 
+  bool deleteNode(int val);
   bool insert(int pos, int val);
   void append(int val);
+  void display();
   ListNode *curHead();
   int currSize();
-  bool deleteNode(int val);
-  void display();
+
   bool isPalin();
   bool isPalinR(ListNode *head, int length, ListNode **next);  
 };
