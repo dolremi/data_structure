@@ -1,18 +1,15 @@
 #include <iostream>
 #include <string>
 
-/* Replace the whitespace of string with "%20", for instance
-   input : "Mr John Smith"
-   output: "Mr%20John%20Smith"
-   the way to solve this problem is two-pass algorithm:
-   1st pass: count how many spaces in the original string, then resize the length of the string accordingly
-   2nd pass: start from the end backward replace the whitespace.
-*/
-
+// Replace the whitespace of string with "%20", for instance
+//   input : "Mr John Smith"
+//   output: "Mr%20John%20Smith"
+//   the way to solve this problem is two-pass algorithm:
+//   1st pass: count how many spaces in the original string, then resize the length of the string accordingly
+//   2nd pass: start from the end backward replace the whitespace and do it in-place
 using namespace std;
 
 void replaceString(string &str){
-  
   // count how many white spaces in the string
   int leng = str.length();
   int count = 0;
