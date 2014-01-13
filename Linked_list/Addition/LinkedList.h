@@ -28,18 +28,22 @@ class LinkedList{
   LinkedList();
   ~LinkedList();
 
-  bool insert(int pos, int val);
-  void append(int val);
   ListNode *curHead();
   int currSize();
+   
   bool deleteNode(int val);
+  bool insert(int pos, int val);
+  void append(int val);
   void display();
+  
   void addReverse(LinkedList &lhs, LinkedList &rhs);
   int RlistToNumber(ListNode *input);
   void NumberToRList(int result);
   void addForward(LinkedList &lhs, LinkedList &rhs);
   int FlistToNumber(ListNode *input, int &i);
   void NumberToFList(int result);
+
+  void addRInPlace(LinkedList &lhs, LinkedList &rhs);
 };
 
 #endif

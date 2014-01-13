@@ -38,7 +38,7 @@ int main(int argc, char *argvp[]){
 
     LinkedList result;
     if(choose == 1){
-      result.addReverse(myleft, myright);
+      result.addRInPlace(myleft, myright);
     }else{
       result.addForward(myleft, myright);
     }
