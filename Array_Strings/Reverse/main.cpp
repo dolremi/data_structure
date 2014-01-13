@@ -4,45 +4,42 @@
 
 using namespace std;
 
-/* Use two indexes one goes with the first char, the other goes with the last one */
-
+// Use two indexes one goes with the first char, the other goes with the last one remember check if the string is empty !
 void reverse(char *str){
   char *last = str;
-  
-  while(*last != '\0'){
-    ++last;
-  }
 
-  last--;
-
-  while(str < last){
-    char temp = *last;
-    *last-- = *str;
-    *str++ = temp;
+  if(str){
+    while(*last != '\0'){
+      ++last;
+    }
+    last--;
+    while(str < last){
+      char temp = *last;
+      *last-- = *str;
+      *str++ = temp;
+    }
   }
 }
 
 
-/* Use additional data structure Stack to handle reverse */
-
+// Use additional data structure Stack to handle reverse 
 void reverseStack(char *str){
   char *input = str;
-  stack<char> mystack;
-  
-  //push into the stack
-  while(*input != '\0'){
-    mystack.push(*input++);
-  }
-
-  input = str;
-  //pop out the stack
-  while(*input != '\0'){
-    *input = mystack.top();
-    mystack.pop();
-    input++;
+  if(str){
+    stack<char> mystack;
+    //push into the stack
+    while(*input != '\0'){
+      mystack.push(*input++);
+    }
+    input = str;
+    //pop out the stack
+    while(*input != '\0'){
+      *input = mystack.top();
+      mystack.pop();
+      input++;
+    }
   }
 }
-
   
 int main(int argc, char *argv[]){
   char str[256];
