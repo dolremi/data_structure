@@ -3,12 +3,9 @@
 
 #include <iostream>
 
-/* General class for linked list data structure */
-
 using namespace std;
 
 // structure for one node of the singly linked list
-
 struct ListNode{
   int val;
   struct ListNode *Next;
@@ -17,7 +14,6 @@ struct ListNode{
  
 
 class LinkedList{
-
   ListNode *head;
   int size;
  public:
