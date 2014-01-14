@@ -1,33 +1,29 @@
 #include <iostream>
 
-/* The problem is to rotate a N*N matrix by 90 degree, for instance:
-       [ 1, 2, 3              [ 7, 4, 1       
-         4, 5, 6       == >     8, 5, 2      
-         7, 8, 9                9, 6, 3 ]
-   Of course you can create a new matrix, then rotate it one element
-   by one element. As always, we will ask the question: could we do 
-   better meaning a more space-efficient version, or could we do it 
-   in place? The answer is yes. For example, at the four corners of
-   matrix, we can rotate it this way, copy 1 to a temp variable, then 
-   7 -> 1; 9 -> 7; 3 -> 9; temp -> 3. 
-   temp = top[m];
-   top[m] = left[m];
-   left[m] = bottom[m];
-   bottom[m] = right[m];
-   right[m] = temp;
-   then we do all the rest of the 
-   matrix in this fashion.
+// The problem is to rotate a N*N matrix by 90 degree, for instance:
+//       [ 1, 2, 3              [ 7, 4, 1       
+//         4, 5, 6       == >     8, 5, 2      
+//         7, 8, 9                9, 6, 3 ]
+//   Of course you can create a new matrix, then rotate it one element
+//   by one element. As always, we will ask the question: could we do 
+//   better meaning a more space-efficient version, or could we do it 
+//   in place? The answer is yes. For example, at the four corners of
+//   matrix, we can rotate it this way, copy 1 to a temp variable, then 
+//   7 -> 1; 9 -> 7; 3 -> 9; temp -> 3. 
+//   temp = top[m];
+//   top[m] = left[m];
+//   left[m] = bottom[m];
+//   bottom[m] = right[m];
+//   right[m] = temp;
+//   then we do all the rest of the matrix in this fashion.
 
-   Note that the rotation will do row by row, and goes from the first
-   row to the middle row, and each row will rotate the number of elements
-   2 fewer than the previous one. 
-*/
-
+//   Note that the rotation will do row by row, and goes from the first
+//   row to the middle row, and each row will rotate the number of elements
+//   2 fewer than the previous one. 
 using namespace std;
 
 // the parameters of 2D arrays in function definition, the second subscript is required
 void  Rotate(int **input, int n){
- 
   cout << "The original matrix is " << endl;
   for(int i = 0; i < n; i++){
     for(int j= 0; j < n; j++){
@@ -36,7 +32,6 @@ void  Rotate(int **input, int n){
     cout << "\n";
   }
 
- 
   for(int i = 0; i < n/2; i++){
     
     //Attention: j should stop at the second to last item!!
@@ -89,14 +84,11 @@ int main(int argc, char* argv[]){
   }
 
   cout << "\n";
-  
   cout << "Now the new matrix is:" << endl;
-  
   Rotate(input, n);
 
 
   //Don't forget delete the allocated memory
-
   for(int i = 0; i < n; i++)
     delete [] input[i];
 
