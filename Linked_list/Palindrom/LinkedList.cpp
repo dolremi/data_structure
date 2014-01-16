@@ -149,23 +149,23 @@ bool LinkedList::isPalin(){
 }
 
 // Each call compares its head to the 'next' ListNode, then go to next node of 'next' ListNode up the stack
-bool LinkedList::isPalinR(ListNode *head, int length, ListNode **next){
+bool LinkedList::isPalinR(ListNode *head, int length, ListNode*& next){
   // Base case when it reaches to the middle element
   if(head == NULL || length == 0){
     return true;
   }else if (length == 1){
-    *next = (*next)->Next;
+    next = next->Next;
     return true;
   }
 
   // Return the compared result from the next ListNode
   // For each call the next node needs to update to next one
-  *next = (*next) -> Next;
+  next = next -> Next;
   bool res = isPalinR(head->Next, length -2, next);
   
   if(res){
-    res = head->val == (*next)->val;
-    *next = (*next)->Next;
+    res = head->val == next->val;
+    next = next->Next;
   }
   return res;
 }
