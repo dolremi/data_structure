@@ -32,7 +32,7 @@ class LinkedList{
   int currSize();
 
   bool isPalin();
-  bool isPalinR(ListNode *head, int length, ListNode *&next);  
+  bool isPalinR(ListNode *head, int length, ListNode*& next);  
 };
 
 #endif
