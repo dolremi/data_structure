@@ -4,7 +4,7 @@
 #include <string>
 
 
-// Instead of using array of 256 ASCII characters, a hash table is used,
+//  Instead of using array of 256 ASCII characters, a hash table is used,
 //  Moreover, assume it is a 256 ASCII characters, then the length of the string
 //  cannot be more than 256 
 
