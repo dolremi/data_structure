@@ -33,7 +33,7 @@ void reverseStack(char *str){
     }
     input = str;
     //pop out the stack
-    while(*input != '\0'){
+    while(!mystack.empty()){
       *input = mystack.top();
       mystack.pop();
       input++;
