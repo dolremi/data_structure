@@ -7,25 +7,11 @@
 //   In Java, on each concatenation, a new copy of the string is created. Therefore, the running time is 
 //   O(n^2) for n strings concatenation. However, in C++, the running time of the concatentation is linear 
 //   time.Thus, the C++ implementation of this problem, the StringBuffer is not needed. 
+//  The length of the string can be detected dynamically
 using namespace std;
 
-// Check the size of the "compressed" string
-int sizeCompressed(string input){
-  int count = 0;
-  char current = input[0];
-  for(int i = 0; i < input.length(); i++){
-    if(input[i] != current){
-      current = input[i];
-      count++;
-    }
-  }
-  return 2*count;
-} 
-   
 string compressed(string input){
-  // if the original size of the string is smaller than return the original one 
-  if(input.length() < sizeCompressed(input))
-    return input;
+  
   int count = 0;
   char current = input[0];
   string output;
@@ -42,10 +28,14 @@ string compressed(string input){
     }
   }
 
-  // Don't forget add the last character !!
+  // Don't forget to add the last character !!
   output += current;
   output += count +'0';
-  return output;
+  
+  if(output.length() > input.length())
+    return input;
+  else
+    return output;
 }
 
 int main(int argc, char* argv[]){
