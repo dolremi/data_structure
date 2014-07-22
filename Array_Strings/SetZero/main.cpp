@@ -7,36 +7,25 @@
 using namespace std;
 
 void setZero(int **input, int m, int n){
-  // Two arrays to record the row and the column the zero element belongs to 
-  int *rows = new int[m];
-  int *cols = new int[n];
+  int rows = 0;
+  int cols = 0;
     
   for(int i = 0; i < m; i++){
     for (int j = 0; j < n; j++){
       if(input[i][j] == 0){
-	rows[i] = 1;
-	cols[j] = 1;
+	rows |= (1 << i);
+	cols |= (1 << j);
       }
     }
   }
 
   // Set all the columns to zero
   for(int i = 0; i < m; i++){
-    if(rows[i] == 1){
-      for(int j = 0; j < n; j++){
-	input[i][j] = 0;
+    for(int j = 0; j < n; j++){
+      if((rows & (1 << i)) || (cols & ( 1 << j)))
+      input[i][j] = 0;
       }
     }
-  }
-
-  // Set all the rows to zero
-  for(int j = 0; j < n; j++){
-    if(cols[j] == 1){
-      for(int i = 0; i < m; i++){
-	input[i][j] = 0;
-      }
-    }
-  }
 }
 
 int main(int argc, char *argv[]){
