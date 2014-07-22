@@ -74,15 +74,16 @@ void LinkedList::append(int val){
 }
 
 bool LinkedList::deleteNode(int input){
-  
+
+  int temp_size = size;  
   if(head == NULL)
     return false;
 
   if(head->val == input){
     ListNode *temp = head;
-    head = NULL;
+    head = head->next;
     delete temp;
-    size = 0;
+    --size;
     return true;
   }
   
@@ -93,11 +94,14 @@ bool LinkedList::deleteNode(int input){
       p1->Next = p1->Next->Next;
       delete temp;
       --size;
-      return true;
     }
     p1 = p1->Next;
   }
-  return false;
+
+  if(temp_size < size)
+    return true;
+  else
+    return false;
 }
 
 void LinkedList::display(){
