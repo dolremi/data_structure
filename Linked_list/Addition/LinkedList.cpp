@@ -81,7 +81,7 @@ bool LinkedList::deleteNode(int input){
 
   if(head->val == input){
     ListNode *temp = head;
-    head = head->next;
+    head = head->Next;
     delete temp;
     --size;
     return true;
