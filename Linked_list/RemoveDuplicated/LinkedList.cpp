@@ -84,11 +84,12 @@ bool LinkedList::deleteNode(int input){
   if(head == NULL)
     return false;
 
+  // move the head
   if(head->val == input){
     ListNode *temp = head;
-    head = NULL;
+    head = head->Next;
     delete temp;
-    size = 0;
+    --size;
     return true;
   }
   
@@ -105,7 +106,7 @@ bool LinkedList::deleteNode(int input){
     }
     p1 = p1->Next;
   }
-  
+
   return false;
 }
 
