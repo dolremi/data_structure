@@ -16,8 +16,7 @@ struct ListNode{
 
 class LinkedList{
 
-  ListNode *head;
-  int size;
+  
  public:
   LinkedList():head(0), size(0){};
   LinkedList(const LinkedList &rhs);
@@ -26,18 +25,21 @@ class LinkedList{
   const LinkedList & operator=(const LinkedList &rhs);
   int getSize(){return size;};
   ListNode * getHead(){return head;};
-  void emptyList();
-  bool insert(int pos, int val);
+  
+  void insert(int pos, int val);
   void append(int val);
-  bool deleteNode(int val);
+  int deleteNode(int val);
   void display();
-
+  bool isEmpty();
   // With hash table version
   void removedDuplicated1();
 
   // Without hash table version
   void removedDuplicated2();
-  
+ private:
+  ListNode *head;
+  int size;
+  void emptyList();
 };
 
 #endif
