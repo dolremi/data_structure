@@ -4,46 +4,40 @@
 
 using namespace std;
 
-LinkedList::LinkedList(){
-  size = 0;
-  head = NULL;
-}
 
-LinkedList::LinkedList(int input, int val){
-  size = input;
-  head = new ListNode(val);
-  ListNode *insertOne = head;  
-
-  for(int i = 0; i < input - 1; i++){
-    ListNode *newNode = new ListNode(val);
-    insertOne->Next = newNode;
-    insertOne = insertOne -> Next;
-  }
-}
-
-LinkedList::LinkedList(LinkedList &rhs){
-  size = rhs.size;
-  head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head->Next;
-  ListNode *insertOne = head;
-
-  while(appendOne){
-    ListNode *newNode = new ListNode(appendOne->val);
-    insertOne -> Next = newNode;
-    insertOne = insertOne -> Next;
-    appendOne = appendOne -> Next; 
- }
+LinkedList::LinkedList(const LinkedList &rhs){
+  operator=( rhs);
 }
 
 LinkedList::~LinkedList(){
-  
-  while(head){
+  emptyList();
+}
+
+const LinkedList & operator=(const LinkedList &rhs){
+  // check if current list is the same as rhs
+  if(this != &rhs){
+    emptyList();
+    size = rhs.getSize();
+    ListNode *runner = head;
+    ListNode *copy = rhs.getHead();
+    for(int i = 0; i < size; ++i){
+      runner = new ListNode(copy->val);
+      runner = runner->Next;
+      copy = copy->Next;
+    }
+  }
+    return *this;
+}
+
+void LinkedList::emptyList(){
+  ListNode *searchNode = head;  
+  while(searchNode){
     ListNode *temp = head;
-    head = head-> Next;
+    searchNode = searchNode-> Next;
     delete temp;
   }
   size = 0;
-}
+}  
 
 bool LinkedList::insert(int pos, int val){
   

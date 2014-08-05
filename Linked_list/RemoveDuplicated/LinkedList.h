@@ -19,13 +19,14 @@ class LinkedList{
   ListNode *head;
   int size;
  public:
-
-// The default constructor is to allocate a linked list with size n and values of val
-  LinkedList(int size, int val);
-  LinkedList();
-  LinkedList(LinkedList &rhs);
+  LinkedList():head(0), size(0){};
+  LinkedList(const LinkedList &rhs);
   ~LinkedList();
 
+  const LinkedList & operator=(const LinkedList &rhs);
+  int getSize(){return size;};
+  ListNode * getHead(){return head;};
+  void emptyList();
   bool insert(int pos, int val);
   void append(int val);
   bool deleteNode(int val);

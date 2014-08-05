@@ -8,38 +8,43 @@
 using namespace std;
 
 // structure for one node of the singly linked list
-struct ListNode{
+// no hidden member data in C struct
+struct Node{
   int val;
-  struct ListNode *Next;
-  ListNode(int x): val(x), Next(0){}
+  struct Node *Next;
+  Node(int x): val(x), Next(0){}
 };
  
-
 class LinkedList{
 
-  // Private members in LinkedList
-  ListNode *head;
-  int size;
  public:
-
-  // Constructors and destructors for the linked list
-  LinkedList(int size, int val);
-  LinkedList(LinkedList &rhs);
-  LinkedList();
+  LinkedList():head(0),size(0){};
+  
+  // copy constructors and destructors
+  LinkedList(const LinkedList &rhs);
   ~LinkedList();
 
-  // Getter functions in the class
-  ListNode *curHead();
-  int currSize();
+  // Assignment operator overloading for "big three"
+  const LinkedList & operator=(const LinkedList &right);
 
-  // Setter functions in the class 
-  bool insert(int pos, int val);
+  void insert(int pos, int val);
   void append(int val);
-  bool deleteNode(int val);
+  int deleteNode(int val);
 
   // Print the list of the nodes
   void display();
   
+  // Getter functions in the class
+  Node *getHead();
+  int getSize();
+  bool isEmpty();
+ private:
+ // Private members in LinkedList
+  Node *head;
+  int size;
+
+  // Utility functions
+  void clearList(); 
 };
 
 #endif
