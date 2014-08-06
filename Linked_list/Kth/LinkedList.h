@@ -11,23 +11,19 @@ struct ListNode{
   ListNode(int x): val(x), Next(0){}
 };
  
-
 class LinkedList{
-  ListNode *head;
-  int size;
  public:
-// The default constructor is to allocate a linked list with size n and values of val
-  LinkedList(int size, int val);
-  LinkedList();
+  LinkedList():size(0), head(0){};
   LinkedList(LinkedList &rhs);
   ~LinkedList();
 
   ListNode *currentHead();
   int currentSize();
 
+  const LinkedList & operator=(const LinkedList &rhs);
   bool insert(int pos, int val);
   void append(int val);
-  bool deleteNode(int val);
+  int deleteNode(int val);
   void display();
  
   // Iterative version of kth to last 
@@ -35,6 +31,10 @@ class LinkedList{
 
   // Recursive version of kth to last
   ListNode* kthlastRecur(ListNode *head, int& k, int m);
-};
+ private:
+  void clearList();
+  ListNode *head;
+  int size;
+ };
 
 #endif

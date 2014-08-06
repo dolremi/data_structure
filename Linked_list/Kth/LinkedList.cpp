@@ -4,63 +4,63 @@
 
 using namespace std;
 
-LinkedList::LinkedList(){
-  size = 0;
-  head = NULL;
-}
-
-LinkedList::LinkedList(int input, int val){
-  size = input;
-  head = new ListNode(val);
-  ListNode *insertOne = head;  
-
-  for(int i = 0; i < input - 1; i++){
-    ListNode *newNode = new ListNode(val);
-    insertOne->Next = newNode;
-    insertOne = insertOne -> Next;
-  }
-}
-
 LinkedList::LinkedList(LinkedList &rhs){
-  size = rhs.size;
-  head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head->Next;
-  ListNode *insertOne = head;
-
-  while(appendOne){
-    ListNode *newNode = new ListNode(appendOne->val);
-    insertOne -> Next = newNode;
-    insertOne = insertOne -> Next;
-    appendOne = appendOne -> Next; 
- }
+  operator=(rhs);
 }
 
 LinkedList::~LinkedList(){
-  while(head){
-    ListNode *temp = head;
-    head = head-> Next;
+  clearList();
+}
+
+void LinkedList::clearList(){
+  
+  ListNode *runner = head;
+  while(runner){
+    ListNode *temp = runner;
+    runner = runner->Next;
     delete temp;
   }
   size = 0;
+  head = 0;
 }
 
-bool LinkedList::insert(int pos, int val){
-  ListNode * insertOne = head;
-  if(pos > size)
-    return false;
-  for(int i = 0; i < pos; i++){
-    insertOne = insertOne -> Next;
+const LinkedList & LinkedList::operator=(const LinkedList &rhs){
+
+  // check for self-assignment
+  if(this != &rhs){
+    clearList();
+    
+    ListNode *copy = rhs.head;
+
+    while(copy){
+      append(copy->val);
+      copy = copy->Next;
+    }
   }
 
-  ListNode *newNode = new ListNode(val);
-  newNode -> Next = insertOne -> Next;
-  insertOne ->Next = newNode;
-  size = size + 1;
-  return true;
+  return *this;
+}
+
+
+void LinkedList::insert(int pos, int val){
+  ListNode * insertOne = head;
+  if(pos < size && pos > 0){
+    
+    for(int i = 0; i < pos - 1; i++){
+      insertOne = insertOne -> Next;
+    }
+
+    ListNode *newNode = new ListNode(val);
+    newNode -> Next = insertOne -> Next;
+    insertOne ->Next = newNode;
+    size = size + 1;
+  }else{
+    cout << "Error! The position should be between 0 and " << size << endl;
+  }
 }
 
 void LinkedList::append(int val){
-  if(head == NULL){
+  if(!head){
     head = new ListNode(val);
   }
   else{
@@ -75,17 +75,17 @@ void LinkedList::append(int val){
   size = size + 1;
 }
 
-bool LinkedList::deleteNode(int input){
+int LinkedList::deleteNode(int input){
   
-  if(head == NULL)
-    return false;
+  if(!head )
+    return -9999999;
 
   if(head->val == input){
     ListNode *temp = head;
-    head = NULL;
+    head = 0;
     delete temp;
-    size = 0;
-    return true;
+    --size ;
+    return input;
   }
   
   ListNode *p1 = head;
@@ -95,11 +95,11 @@ bool LinkedList::deleteNode(int input){
       p1->Next = p1->Next->Next;
       delete temp;
       --size;
-      return true;
+      return input;
     }
     p1 = p1->Next;
   }
-  return false;
+  return -9999999;
 }
 
 void LinkedList::display(){
@@ -118,13 +118,14 @@ ListNode * LinkedList::kthlastIter(int k){
   ListNode *p1 = head;
   ListNode *p2 = head;
      
+  // if k is out of bound 0 is returned
+  if(k >= size) return 0;
+
   //Fast runner p2 is k nodes ahead of p1
   for(int i = 0; i < k-1; i++){
-    if(p2 == 0) return NULL; // Error check for k is out of the range    
-    p2 = p2->Next;
+     p2 = p2->Next;
   }
-  if(p2 == 0) return NULL;  // Error checking if p2 is NULL
-
+ 
   // When the fast runner reached the end, the slow runner reached the kth to the last element
   while(p2->Next){
     p2 = p2->Next;
@@ -144,16 +145,16 @@ int LinkedList::currentSize(){
 // A recursive version of kth to last, k is a reference to the value which will
 // record the position relative the the last element, nth to last : k = n, this number
 // will change across the function calls, the space is O(n) 
-ListNode * LinkedList::kthlastRecur(ListNode *input, int &k, int m){
+ListNode * LinkedList::kthlastRecur(ListNode *input, int &j, int k){
  
   // Base case or head is NULL
-  if(input == NULL)
-    return NULL;
+  if(!input)
+    return 0;
 
-  ListNode *result = kthlastRecur(input->Next, k, m);
-  k = k + 1;
+  ListNode *result = kthlastRecur(input->Next, j, k);
+  j = j + 1;
   
-  if(k == m){
+  if(j == k){
     return input;
   }
     return result;
