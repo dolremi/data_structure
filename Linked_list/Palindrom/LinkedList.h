@@ -12,20 +12,16 @@ struct ListNode{
   ListNode(int x): val(x), Next(0){}
 };
  
-
 class LinkedList{
-  ListNode *head;
-  int size;
  public:
-
-// The default constructor is to allocate a linked list with size n and values of val
-  LinkedList(int size, int val);
+   LinkedList():size(0),input(0){};
   LinkedList(LinkedList &rhs);
-  LinkedList();
+
   ~LinkedList();
 
-  bool deleteNode(int val);
-  bool insert(int pos, int val);
+  const LinkeList & operator=(const LinkedList &rhs);
+  int deleteNode(int val);
+  void insert(int pos, int val);
   void append(int val);
   void display();
   ListNode *curHead();
@@ -33,6 +29,10 @@ class LinkedList{
 
   bool isPalin();
   bool isPalinR(ListNode *head, int length, ListNode*& next);  
+ private:
+  ListNode *head;
+  int size;
+  void clearList();
 };
 
 #endif

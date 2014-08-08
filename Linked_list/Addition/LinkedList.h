@@ -14,21 +14,19 @@ struct ListNode{
  
 
 class LinkedList{
-  ListNode *head;
-  int size;
  public:
-
-// The default constructor is to allocate a linked list with size n and values of val
+  LinkedList():size(0), head(0);
   LinkedList(int size, int val);
   LinkedList(LinkedList &rhs);
-  LinkedList();
+
   ~LinkedList();
 
+  const LinkedList& operator=(const LinkedList &);
   ListNode *curHead();
   int currSize();
    
-  bool deleteNode(int val);
-  bool insert(int pos, int val);
+  int deleteNode(int val);
+  void insert(int pos, int val);
   void append(int val);
   void display();
   
@@ -40,6 +38,10 @@ class LinkedList{
   void NumberToFList(int result);
 
   void addRInPlace(LinkedList &lhs, LinkedList &rhs);
+ private:
+  ListNode *head;
+  int size;
+  void clearList();
 };
 
 #endif

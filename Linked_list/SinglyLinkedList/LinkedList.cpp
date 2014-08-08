@@ -28,12 +28,14 @@ const LinkedList & LinkedList::operator=(const LinkedList &right){
   if(this != &right){
     clearList();
    
-    Node *rightHead = right.head;
+    Node *rightHead = right.getHead();
 
     for(int i = 0; i < right.size; ++i){
       append(rightHead->val);
       rightHead = rightHead->Next;
     }
+    
+    size = right.getSize();
   }
 
   return *this;

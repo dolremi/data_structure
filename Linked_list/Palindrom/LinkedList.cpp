@@ -3,23 +3,6 @@
 #include <stack>
 using namespace std;
 
-LinkedList::LinkedList(){
-  size = 0;
-  head = 0;
-}
-
-LinkedList::LinkedList(int input, int val){
-  size = input;
-  head = new ListNode(val);
-  ListNode *insertOne = head;  
-
-  for(int i = 0; i < input - 1; i++){
-    ListNode *newNode = new ListNode(val);
-    insertOne->Next = newNode;
-    insertOne = insertOne -> Next;
-  }
-}
-
 LinkedList::LinkedList(LinkedList &rhs){
   size = rhs.size;
   head = new ListNode(rhs.head->val);
@@ -34,31 +17,57 @@ LinkedList::LinkedList(LinkedList &rhs){
  }
 }
 
+const LinkedList & LinkedList::operator=(const LinkedList &rhs){
+  // check self assignment
+  if(this != &rhs){
+    clearList();
+    ListNode *copy = rhs.curHead();
+    
+    while(copy){
+      append(copy->val);
+      copy = copy -> Next;
+    }
+
+    size = rhs.currSize();
+  }
+
+  return *this;
+}
+
 LinkedList::~LinkedList(){
-  while(head){
-    ListNode *temp = head;
-    head = head-> Next;
+  clearList();
+}
+
+void LinkedList::clearList(){
+  ListNode *p1 = head;
+  while(p1){
+    ListNode *temp = p1;
+    p1 = p1->Next;
     delete temp;
   }
+
+  head = 0;
   size = 0;
 }
 
-bool LinkedList::insert(int pos, int val){
+void LinkedList::insert(int pos, int val){
   ListNode * insertOne = head;
-  if(pos > size)
-    return false;
-  for(int i = 0; i < pos; i++){
-    insertOne = insertOne -> Next;
+  if(pos < size&& pos > 0){
+ 
+    for(int i = 0; i < pos; i++){
+      insertOne = insertOne -> Next;
+    }
+    ListNode *newNode = new ListNode(val);
+    newNode -> Next = insertOne -> Next;
+    insertOne ->Next = newNode;
+    size = size + 1;
+  }else{
+    cout << "Error! The position should be between 0 and " << size << endl;
   }
-  ListNode *newNode = new ListNode(val);
-  newNode -> Next = insertOne -> Next;
-  insertOne ->Next = newNode;
-  size = size + 1;
-  return true;
 }
 
 void LinkedList::append(int val){
-  if(head == 0){
+  if(!head){
     head = new ListNode(val);
   }
   else{
@@ -71,28 +80,28 @@ void LinkedList::append(int val){
   size = size + 1;
 }
 
-bool LinkedList::deleteNode(int input){
-  if(head == 0)
-    return false;
+int LinkedList::deleteNode(int input){
+  if(!head)
+    return -9999999;
   if(head->val == input){
     ListNode *temp = head;
-    head = 0;
+    head = head->Next;
     delete temp;
-    size = 0;
-    return true;
+    --size ;
+    return input;
   }
   ListNode *p1 = head;
-  while(p1->Next != 0){
+  while(p1->Next){
     if(p1->Next->val == input){
       ListNode *temp = p1->Next;
       p1->Next = p1->Next->Next;
       delete temp;
       --size;
-      return true;
+      return input;
     }
     p1 = p1->Next;
   }
-  return false;
+  return -9999999;
 }
 
 void LinkedList::display(){
@@ -127,7 +136,7 @@ bool LinkedList::isPalin(){
   stack <int> mystack;
  
   // The condition to terminate the loop is to check if fast-> Next and fast is empty
-  while(fast != 0 && fast -> Next != 0){
+  while(fast && fast->Next){
     mystack.push(slow -> val);
     slow = slow -> Next;
     fast = fast -> Next -> Next;   
@@ -139,7 +148,7 @@ bool LinkedList::isPalin(){
   }
  
   // Always check if the pointer is NULL before accessing the value of it
-  while(slow != 0 ){
+  while(slow){
     if(mystack.top() != slow -> val)
       return false;
     slow = slow -> Next;
@@ -151,7 +160,7 @@ bool LinkedList::isPalin(){
 // Each call compares its head to the 'next' ListNode, then go to next node of 'next' ListNode up the stack
 bool LinkedList::isPalinR(ListNode *head, int length, ListNode*& next){
   // Base case when it reaches to the middle element
-  if(head == NULL || length == 0){
+  if(head || length){
     return true;
   }else if (length == 1){
     next = next->Next;

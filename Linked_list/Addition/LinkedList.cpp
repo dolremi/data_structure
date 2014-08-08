@@ -4,63 +4,57 @@
 
 using namespace std;
 
-LinkedList::LinkedList(){
-  size = 0;
-  head = NULL;
-}
-
-LinkedList::LinkedList(int input, int val){
-  size = input;
-  head = new ListNode(val);
-  ListNode *insertOne = head;  
-
-  for(int i = 0; i < input - 1; i++){
-    ListNode *newNode = new ListNode(val);
-    insertOne->Next = newNode;
-    insertOne = insertOne -> Next;
-  }
-}
-
 LinkedList::LinkedList(LinkedList &rhs){
-  size = rhs.size;
-  head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head->Next;
-  ListNode *insertOne = head;
+  operator=(rhs);
+}
 
-  while(appendOne){
-    ListNode *newNode = new ListNode(appendOne->val);
-    insertOne -> Next = newNode;
-    insertOne = insertOne -> Next;
-    appendOne = appendOne -> Next; 
- }
+const LinkedList & LinkedList::operator=(const LinkedList &rhs){
+  // check the self-assignment
+  if(this != &rhs){
+    clearList();
+    ListNode *copy = rhs.curHead();
+    
+    while(copy){
+      append(copy->val);
+      copy = copy -> Next;
+    }
+    size = rhs.currSize();
+  }
+
+  return *this;
 }
 
 LinkedList::~LinkedList(){
-  while(head){
-    ListNode *temp = head;
-    head = head-> Next;
-    delete temp;
-  }
-  size = 0;
+  clearList();
 }
 
-bool LinkedList::insert(int pos, int val){
-  ListNode * insertOne = head;
-  if(pos > size)
-    return false;
-  for(int i = 0; i < pos; i++){
-    insertOne = insertOne -> Next;
+void LinkedList::clearList(){
+  ListNode *p1 = head;
+  while(p1){
+    ListNode temp = p1;
+    p1 = p1->Next;
+    delete p1;
   }
+}
 
-  ListNode *newNode = new ListNode(val);
-  newNode -> Next = insertOne -> Next;
-  insertOne ->Next = newNode;
-  size = size + 1;
-  return true;
+void LinkedList::insert(int pos, int val){
+  ListNode * insertOne = head;
+  if(pos < size && pos > 0){
+    for(int i = 0; i < pos; i++){
+      insertOne = insertOne -> Next;
+    }
+
+    ListNode *newNode = new ListNode(val);
+    newNode -> Next = insertOne -> Next;
+    insertOne ->Next = newNode;
+    size = size + 1;
+  }else{
+    cout << "Error! The position should be between 0 and " << size << endl;
+  }
 }
 
 void LinkedList::append(int val){
-  if(head == NULL){
+  if(!head){
     head = new ListNode(val);
   }
   else{
@@ -73,35 +67,31 @@ void LinkedList::append(int val){
   size = size + 1;
 }
 
-bool LinkedList::deleteNode(int input){
+int LinkedList::deleteNode(int input){
 
-  int temp_size = size;  
-  if(head == NULL)
-    return false;
+  if(!head)
+    return -9999999;
 
   if(head->val == input){
     ListNode *temp = head;
     head = head->Next;
     delete temp;
     --size;
-    return true;
+    return input;
   }
   
   ListNode *p1 = head;
-  while(p1->Next != NULL){
+  while(p1->Next){
     if(p1->Next->val == input){
       ListNode *temp = p1->Next;
       p1->Next = p1->Next->Next;
       delete temp;
       --size;
+      return input;
     }
     p1 = p1->Next;
   }
-
-  if(temp_size < size)
-    return true;
-  else
-    return false;
+  return -9999999;
 }
 
 void LinkedList::display(){
@@ -144,10 +134,7 @@ void LinkedList::NumberToRList(int result){
     int value = result % 10;    
     result /= 10;
     append(value);
-    ++i;
-   
   }
-  size = i;
 }
 
 // convert reverse order list to a number

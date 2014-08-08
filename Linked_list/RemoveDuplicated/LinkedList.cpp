@@ -23,6 +23,8 @@ const LinkedList & operator=(const LinkedList &rhs){
       append(copy->val);
       copy = copy->Next;
     }
+
+    size = rhs.getSize();
   }
     return *this;
 }

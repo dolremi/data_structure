@@ -23,12 +23,13 @@ const LinkedList & LinkedList::operator(const LinkedList &rhs){
   if(this != &rhs){
     clearList();
     
-    ListNode *copy = rhs.head;
+    ListNode *copy = rhs.getHead();
     
     while(copy){
       append(copy->val);
       copy = copy->Next;
     }
+    size = rhs.getSize();
   }
   return *this;
 }
@@ -82,12 +83,12 @@ void LinkedList::append(int val){
 
 int LinkedList::deleteNode(int input){
   
-  if(head == NULL)
+  if(!head)
     return -9999999;
 
   if(head->val == input){
     ListNode *temp = head;
-    head = NULL;
+    head = head->Next;
     delete temp;
     --size;
     return input;

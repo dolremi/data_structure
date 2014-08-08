@@ -3,66 +3,64 @@
 
 using namespace std;
 
-LinkedList::LinkedList(){
-  size = 0;
-  head = NULL;
-}
-
-LinkedList::LinkedList(int input, int val){
-  size = input;
-  head = new ListNode(val);
-  ListNode *insertOne = head;  
-
-  for(int i = 0; i < input - 1; i++){
-    ListNode *newNode = new ListNode(val);
-    insertOne->Next = newNode;
-    insertOne = insertOne -> Next;
-  }
-}
-
 LinkedList::LinkedList(LinkedList &rhs){
-  size = rhs.size;
-  head = new ListNode(rhs.head->val);
-  ListNode *appendOne = rhs.head->Next;
-  ListNode *insertOne = head;
-
-  while(appendOne){
-    ListNode *newNode = new ListNode(appendOne->val);
-    insertOne -> Next = newNode;
-    insertOne = insertOne -> Next;
-    appendOne = appendOne -> Next; 
- }
+  operator=(rhs);
 }
 
 LinkedList::~LinkedList(){
-  
-  while(head){    
-    ListNode *temp = head;
-    head = head-> Next;
-    delete temp;
-  }
-  size = 0;
+  clearList();
 }
 
-bool LinkedList::insert(int pos, int val){
+void LinkedList::clearList(){
+  ListNode *p1 = head;
   
-  ListNode * insertOne = head;
-  if(pos > size)
-    return false;
+  while(p1){
+    ListNode *tmp = p1;
+    p1 = p1->Next;
+    delete tmp;
+  }
+  size = 0;
+  head = 0;
+}
 
-  for(int i = 0; i < pos; i++){
-    insertOne = insertOne -> Next;
+
+const LinkedList & LinkedList::operator=(const LinkedList & rhs){
+  // Check the self-assignment
+  if(this != &rhs){
+    clearList();
+    ListNode *copy = rhs.head;
+
+    while(copy){
+      append(copy->val);
+      copy = copy->Next;
+    }
+
+    size = rhs.currSize();
   }
 
-  ListNode *newNode = new ListNode(val);
-  newNode -> Next = insertOne -> Next;
-  insertOne ->Next = newNode;
-  size = size + 1;
-  return true;
+  return *this;
+}
+
+void LinkedList::insert(int pos, int val){
+  
+  ListNode * insertOne = head;
+  if(pos < size && pos > 0){
+    for(int i = 0; i < pos - 1; i++){
+      insertOne = insertOne -> Next;
+    }
+
+    ListNode *newNode = new ListNode(val);
+    newNode -> Next = insertOne -> Next;
+    insertOne ->Next = newNode;
+    size = size + 1;
+  }else{
+    cout << "Error! The position should be between 0 and " << size << endl;
+  }
+  
 }
 
 void LinkedList::append(int val){
-  if(head == NULL){
+  if(!head){
     head = new ListNode(val);
   }
   else{
@@ -75,33 +73,33 @@ void LinkedList::append(int val){
   size = size + 1;
 }
 
-bool LinkedList::deleteNode(int input){
+int LinkedList::deleteNode(int input){
   
-  if(head == NULL)
-    return false;
+  if(!head)
+    return -99999999;
 
   if(head->val == input){
     ListNode *temp = head;
-    head = NULL;
+    head = head->Next;
     delete temp;
-    size = 0;
-    return true;
+    --size;
+    return input;
   }
   
   ListNode *p1 = head;
 
-  while(p1->Next != NULL){
+  while(!p1->Next){
     if(p1->Next->val == input){
       ListNode *temp = p1->Next;
       p1->Next = p1->Next->Next;
       delete temp;
       --size;
-      return true;
+      return input;
     }
     p1 = p1->Next;
   }
   
-  return false;
+  return -99999999;
 }
 
 void LinkedList::display(){
