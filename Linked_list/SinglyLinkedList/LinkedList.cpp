@@ -34,8 +34,6 @@ const LinkedList & LinkedList::operator=(const LinkedList &right){
       append(rightHead->val);
       rightHead = rightHead->Next;
     }
-    
-    size = right.getSize();
   }
 
   return *this;
@@ -45,17 +43,21 @@ void LinkedList::insert(int pos, int val){
   
   Node * insertOne = head;
   
-  if( pos < size && pos > 0){    
-    for(int i = 0; i < pos - 1; i++){
+  if( pos <= size && pos >= 0){    
+    int i = 0;
+    
+    // Now the new node can be inserted after the head 
+    while(i < size){
       insertOne = insertOne -> Next;
+      ++i;
     }
+    
+    Node *newNode = new Node(val);
 
-  Node *newNode = new Node(val);
-
-  // find the node next to the inserted position
-  newNode -> Next = insertOne -> Next;
-  insertOne ->Next = newNode;
-  size = size + 1;
+    // find the node next to the inserted position
+    newNode -> Next = insertOne -> Next;
+    insertOne ->Next = newNode;
+    size = size + 1;
   }else{
     cout << "Error! The position needs to be between 0 and " << size << endl;
   }
@@ -75,6 +77,7 @@ void LinkedList::append(int val){
     lastNode->Next = temp;
   }
   size = size + 1;
+
 }
 
 int LinkedList::deleteNode(int input){

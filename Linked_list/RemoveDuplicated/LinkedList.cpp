@@ -23,8 +23,6 @@ const LinkedList & operator=(const LinkedList &rhs){
       append(copy->val);
       copy = copy->Next;
     }
-
-    size = rhs.getSize();
   }
     return *this;
 }
@@ -44,11 +42,12 @@ void LinkedList::insert(int pos, int val){
   
   ListNode * insertOne = head;
   if(pos < size && pos > 0){
-    
-    for(int i = 0; i < pos - 1; i++){
+    int i = 0;
+    while(i < pos){
       insertOne = insertOne -> Next;
+      ++i;
     }
-
+    
     ListNode *newNode = new ListNode(val);
     newNode -> Next = insertOne -> Next;
     insertOne ->Next = newNode;
